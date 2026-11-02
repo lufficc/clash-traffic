@@ -2,6 +2,13 @@
 
 每个版本的说明也会显示在应用的更新窗口中。
 
+## 0.1.5
+
+- **FlClash**: Subscriptions now shows FlClash's subscriptions, with their names and usage, instead of "Unknown subscription"; traffic already counted there keeps that name. Turn on FlClash's external controller and the app finds it by itself.
+  **支持 FlClash**：「订阅」页会显示 FlClash 的订阅名称和用量，不再显示「未知订阅」；已记入「未知订阅」的历史流量不变。开启 FlClash 的外部控制后，应用可自动找到它。
+- This has been tested against FlClash 0.9.2's data format, but not yet with FlClash itself on a real computer. Please report anything amiss in issue #3.
+  此功能已按 FlClash 0.9.2 的数据格式测试，但尚未在真机上配合 FlClash 实际运行。如有问题，请在 issue #3 反馈。
+
 ## 0.1.4
 
 - Exporting CSV from Apps or Hosts keeps the search: the file holds the lines the page shows.
