@@ -37,7 +37,7 @@
 
 安装包暂未签名。macOS 首次打开请右键选择「打开」；Windows 请选择「更多信息 → 仍要运行」。
 
-支持 Clash Verge Rev，以及控制接口可访问的其他 mihomo 内核。为区分应用，它会把内核的 `find-process-mode` 设为 `always`；在 Clash Verge 的全局扩展覆写配置中加入 `find-process-mode: always` 可在重载后保持。
+支持 Clash Verge Rev、FlClash（需开启其外部控制，可同时读取订阅名称和用量），以及控制接口可访问的其他 mihomo 内核。为区分应用，它会把内核的 `find-process-mode` 设为 `always`；在 Clash Verge 的全局扩展覆写配置中加入 `find-process-mode: always` 可在重载后保持。
 
 ## 构建
 

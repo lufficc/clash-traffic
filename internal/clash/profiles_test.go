@@ -7,9 +7,9 @@ import (
 
 func TestProfilesLive(t *testing.T) {
 	if os.Getenv("CLASH_LIVE") == "" {
-		t.Skip("set CLASH_LIVE=1 to read this computer's Clash Verge profiles")
+		t.Skip("set CLASH_LIVE=1 to read this computer's Clash client profiles")
 	}
-	ps, err := Profiles()
+	ps, err := Profiles(Endpoint{})
 	if err != nil {
 		t.Fatal(err)
 	}

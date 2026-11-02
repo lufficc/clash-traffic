@@ -1,6 +1,7 @@
 package clash
 
 import (
+	"log"
 	"os"
 	"path/filepath"
 	"sort"
@@ -8,7 +9,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// Profile is a configuration of Clash Verge: a subscription when it is
+// Profile is a configuration of the Clash client: a subscription when it is
 // remote, with the usage its provider reports.
 type Profile struct {
 	UID      string
@@ -38,9 +39,37 @@ type profilesFile struct {
 	} `yaml:"items"`
 }
 
-// Profiles reads the configurations of Clash Verge from profiles.yaml, the
-// one in use first. It returns none when Clash Verge is not installed.
-func Profiles() ([]Profile, error) {
+// Profiles reads the configurations of the client whose core is at ep, the
+// one in use first: FlClash when ep is its controller, else Clash Verge, else
+// any FlClash. It returns none when neither is installed.
+func Profiles(ep Endpoint) ([]Profile, error) {
+	flclash := FlClashDirs()
+	configs := make(map[string]flClashConfig, len(flclash))
+	for _, dir := range flclash {
+		cfg, err := readFlClashConfig(dir)
+		if err != nil {
+			log.Println("FlClash config:", err)
+		}
+		configs[dir] = cfg
+		if ownedByFlClash(cfg, ep) {
+			return flClashProfiles(dir, cfg)
+		}
+	}
+	out, err := vergeProfiles()
+	if err != nil || len(out) > 0 {
+		return out, err
+	}
+	for _, dir := range flclash {
+		out, err := flClashProfiles(dir, configs[dir])
+		if err != nil || len(out) > 0 {
+			return out, err
+		}
+	}
+	return nil, nil
+}
+
+// vergeProfiles reads the configurations of Clash Verge from profiles.yaml.
+func vergeProfiles() ([]Profile, error) {
 	for _, dir := range VergeDirs() {
 		data, err := os.ReadFile(filepath.Join(dir, "profiles.yaml"))
 		if err != nil {

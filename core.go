@@ -66,12 +66,13 @@ type Core struct {
 	settingsPath string
 	statePath    string
 
-	store    *store.Store
-	sessions *sessions.Log
-	syncer   *syncer.Syncer
-	mesh     *mesh.Node
-	coll     *collector.Collector // used by the poll loop only
-	sub      string               // the subscription in use; poll loop only
+	store       *store.Store
+	sessions    *sessions.Log
+	syncer      *syncer.Syncer
+	mesh        *mesh.Node
+	coll        *collector.Collector // used by the poll loop only
+	sub         string               // the subscription in use; poll loop only
+	subEndpoint clash.Endpoint       // the core the subscriptions are read for; poll loop only
 
 	mu         sync.Mutex
 	file       settingsFile
@@ -292,6 +293,10 @@ func (c *Core) pollLoop(ctx context.Context) {
 			c.client = client
 			c.mu.Unlock()
 			c.setStatus(ClashStatus{Connected: true, Endpoint: ep.String(), Source: ep.Source, Version: version, Since: time.Now().UnixMilli()})
+			// The subscriptions are those of the client this core belongs to.
+			c.subEndpoint = ep
+			lastSubs = time.Now()
+			c.refreshSubs()
 		}
 
 		tctx, cancel := context.WithTimeout(ctx, 3*time.Second)
@@ -341,11 +346,11 @@ func connectWith(ctx context.Context, mode ClashMode, address, secret string) (c
 	return ep, v, nil
 }
 
-// refreshSubs reads Clash Verge's subscriptions: the one in use names the
+// refreshSubs reads the Clash client's subscriptions: the one in use names the
 // subscription of proxied traffic, and all of them, with their usage, go to
 // the other devices. Called on the poll goroutine.
 func (c *Core) refreshSubs() {
-	profiles, err := clash.Profiles()
+	profiles, err := clash.Profiles(c.subEndpoint)
 	if err != nil {
 		log.Println("profiles:", err)
 		return

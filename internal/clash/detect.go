@@ -77,6 +77,12 @@ func Candidates() []Endpoint {
 		}
 		add(ep)
 	}
+	for _, ep := range fromFlClash() {
+		if ep.Kind == KindHTTP && fileSecret == "" {
+			fileSecret = ep.Secret
+		}
+		add(ep)
+	}
 	for _, ep := range fromRunningPipes() {
 		add(ep)
 	}
@@ -146,6 +152,17 @@ func flagValue(line, name string) string {
 	return strings.Trim(strings.TrimSpace(v), `"'`)
 }
 
+// linuxDataHome returns the directory of applications' data on Linux.
+func linuxDataHome() string {
+	if data := os.Getenv("XDG_DATA_HOME"); data != "" {
+		return data
+	}
+	if home, _ := os.UserHomeDir(); home != "" {
+		return filepath.Join(home, ".local", "share")
+	}
+	return ""
+}
+
 // VergeDirs returns the data directories of Clash Verge Rev and Clash
 // Verge that exist on this machine.
 func VergeDirs() []string {
@@ -157,11 +174,7 @@ func VergeDirs() []string {
 		bases = append(bases, cfg)
 	}
 	if runtime.GOOS == "linux" {
-		data := os.Getenv("XDG_DATA_HOME")
-		if data == "" && home != "" {
-			data = filepath.Join(home, ".local", "share")
-		}
-		if data != "" {
+		if data := linuxDataHome(); data != "" {
 			bases = append(bases, data)
 		}
 	}

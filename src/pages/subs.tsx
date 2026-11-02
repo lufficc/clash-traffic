@@ -63,14 +63,14 @@ export function SubsPage({ filters, setFilters, go }: PageProps) {
       <FilterBar filters={filters} setFilters={setFilters} hide={["sub"]} />
       <div class={`stack${loading && report ? " refreshing" : ""}`}>
         <p class="muted small intro">
-          {t("Proxied traffic counts toward the subscription Clash Verge had on at the time (or the proxy-provider of its node); direct traffic uses no subscription.")}{" "}
+          {t("Proxied traffic counts toward the subscription your Clash client had on at the time (or the proxy-provider of its node); direct traffic uses no subscription.")}{" "}
           {tx("{usage} comes from the subscription and is its usage on every device; {counted} is the traffic Clash Traffic recorded, {range}.", {
             usage: t("Provider usage"),
             counted: t("Counted here"),
             range: rangeLabel(filters.range),
           })}
         </p>
-        {report && !views.length && <div class="placeholder">{t("No subscriptions yet: make sure Clash Verge has imported one.")}</div>}
+        {report && !views.length && <div class="placeholder">{t("No subscriptions yet: make sure your Clash client has imported one.")}</div>}
         <div class="sub-grid">
           {views.map((v) => (
             <SubCard key={v.name} v={v} total={counted} onShow={() => show(v.name)} />
