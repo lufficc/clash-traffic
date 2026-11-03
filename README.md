@@ -37,7 +37,7 @@ Download the latest build from [Releases](https://github.com/lufficc/clash-traff
 
 The builds are not signed yet. On macOS, right-click the app and choose **Open** the first time; on Windows, choose **More info → Run anyway**.
 
-It works with Clash Verge Rev, FlClash (turn on its external controller; subscription names and usage come along), or any mihomo core whose controller it can reach. To tell apps apart it sets the core's `find-process-mode` to `always`; add `find-process-mode: always` to Clash Verge's merge config to keep it after a reload.
+It works with Clash Verge Rev, FlClash (turn on Tools → General → Inbound → External controller; subscription names and usage come along), or any mihomo core whose controller it can reach. To tell apps apart it sets the core's `find-process-mode` to `always`; add `find-process-mode: always` to Clash Verge's merge config to keep it after a reload.
 
 ## Build
 
