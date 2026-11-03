@@ -1,13 +1,15 @@
 package i18n
 
 var ko = map[string]string{
-	"Clash Traffic cannot start": "Clash Traffic을 시작할 수 없습니다",
-	"This computer today: —":     "오늘 이 컴퓨터: —",
-	"Live: not connected":        "실시간: 연결 안 됨",
-	"Open Clash Traffic":         "Clash Traffic 열기",
-	"Sync now":                   "지금 동기화",
-	"Quit":                       "종료",
-	"Live: ↑ %s/s  ↓ %s/s":       "실시간: ↑ %s/s  ↓ %s/s",
+	"Clash Traffic cannot start":                       "Clash Traffic을 시작할 수 없습니다",
+	"This computer today: —":                           "오늘 이 컴퓨터: —",
+	"Open Clash Traffic":                               "Clash Traffic 열기",
+	"Connected · mihomo %s":                            "연결됨 · mihomo %s",
+	"Reconnect":                                        "다시 연결",
+	"Subscription: %s":                                 "구독: %s",
+	"Subscription: %s · %s of %s used":                 "구독: %s · %s / %s 사용",
+	"Sync now":                                         "지금 동기화",
+	"Live: ↑ %s/s  ↓ %s/s":                             "실시간: ↑ %s/s  ↓ %s/s",
 	"This computer today: ↑ %s  ↓ %s (proxy %s)":       "오늘 이 컴퓨터: ↑ %s  ↓ %s (프록시 %s)",
 	"Clash Traffic · today %s":                         "Clash Traffic · 오늘 %s",
 	"Export the traffic":                               "트래픽 내보내기",

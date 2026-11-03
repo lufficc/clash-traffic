@@ -1,13 +1,15 @@
 package i18n
 
 var ja = map[string]string{
-	"Clash Traffic cannot start": "Clash Traffic を起動できません",
-	"This computer today: —":     "今日（このコンピューター）：—",
-	"Live: not connected":        "リアルタイム：未接続",
-	"Open Clash Traffic":         "Clash Traffic を開く",
-	"Sync now":                   "今すぐ同期",
-	"Quit":                       "終了",
-	"Live: ↑ %s/s  ↓ %s/s":       "リアルタイム：↑ %s/s  ↓ %s/s",
+	"Clash Traffic cannot start":                       "Clash Traffic を起動できません",
+	"This computer today: —":                           "今日（このコンピューター）：—",
+	"Open Clash Traffic":                               "Clash Traffic を開く",
+	"Connected · mihomo %s":                            "接続済み · mihomo %s",
+	"Reconnect":                                        "再接続",
+	"Subscription: %s":                                 "サブスクリプション：%s",
+	"Subscription: %s · %s of %s used":                 "サブスクリプション：%s · %s / %s 使用",
+	"Sync now":                                         "今すぐ同期",
+	"Live: ↑ %s/s  ↓ %s/s":                             "リアルタイム：↑ %s/s  ↓ %s/s",
 	"This computer today: ↑ %s  ↓ %s (proxy %s)":       "今日（このコンピューター）：↑ %s  ↓ %s（プロキシ %s）",
 	"Clash Traffic · today %s":                         "Clash Traffic · 今日 %s",
 	"Export the traffic":                               "トラフィックをエクスポート",

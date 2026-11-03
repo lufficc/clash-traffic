@@ -178,38 +178,74 @@ func appMenu() *mygo.Menu {
 	})
 }
 
-// setupTray puts an icon in the menu bar (notification area) with today's
-// traffic and the current speed.
+// setupTray puts an icon in the menu bar (notification area). A click opens
+// the window; a right click opens the menu, which tells how the counting
+// goes: the connection, today's traffic, the speed and the subscription.
 func setupTray(core *Core) {
+	status := &mygo.MenuItem{ID: "status", Label: i18n.T("Not connected to Clash"), Disabled: true}
 	today := &mygo.MenuItem{ID: "today", Label: i18n.T("This computer today: —"), Disabled: true}
-	speed := &mygo.MenuItem{ID: "speed", Label: i18n.T("Live: not connected"), Disabled: true}
+	speed := &mygo.MenuItem{ID: "speed", Disabled: true, Hidden: true}
+	sub := &mygo.MenuItem{ID: "sub", Disabled: true, Hidden: true}
+	reconnect := &mygo.MenuItem{ID: "reconnect", Label: i18n.T("Reconnect"), Click: func(*mygo.MenuItem, *mygo.Window) { core.Reconnect() }}
+	syncNow := &mygo.MenuItem{ID: "sync", Label: i18n.T("Sync now"), Hidden: true, Click: func(*mygo.MenuItem, *mygo.Window) { core.TriggerSync() }}
 	menu := mygo.NewMenu([]*mygo.MenuItem{
+		status,
 		today,
 		speed,
+		sub,
 		mygo.Separator(),
 		{ID: "open", Label: i18n.T("Open Clash Traffic"), Click: func(*mygo.MenuItem, *mygo.Window) { showMainWindow() }},
-		{ID: "sync", Label: i18n.T("Sync now"), Click: func(*mygo.MenuItem, *mygo.Window) { core.TriggerSync() }},
+		reconnect,
+		syncNow,
 		updateMenuItem(),
 		mygo.Separator(),
-		{ID: "quit", Label: i18n.T("Quit"), Click: func(*mygo.MenuItem, *mygo.Window) { mygo.App.Quit() }},
+		{ID: "quit", Label: i18n.T("Quit Clash Traffic"), Click: func(*mygo.MenuItem, *mygo.Window) { mygo.App.Quit() }},
 	})
-	tray, err := mygo.NewTray(mygo.TrayOptions{
-		Icon:           icon.Tray(32),
-		IconIsTemplate: true,
-		ToolTip:        "Clash Traffic",
-		Menu:           menu,
-	})
+	// Linux's AppIndicator reports no clicks, so its icon keeps the menu;
+	// elsewhere a click opens the window and the menu waits for a right
+	// click, which also builds it afresh: Windows keeps the labels a tray
+	// menu had when it was set.
+	clickOpens := runtime.GOOS != "linux"
+	opts := mygo.TrayOptions{Icon: icon.Tray(32), IconIsTemplate: true, ToolTip: "Clash Traffic"}
+	if !clickOpens {
+		opts.Menu = menu
+	}
+	tray, err := mygo.NewTray(opts)
 	if err != nil {
 		log.Println("tray:", err)
 		return
 	}
-	today, speed = menu.ItemByID("today"), menu.ItemByID("speed")
-	// showToday puts today's traffic of this computer in the menu and the
-	// tooltip.
+
+	// The title changes from the poll goroutine and the main thread; the
+	// tray, which waits for the main thread, is called without the lock.
+	var mu sync.Mutex
+	title := ""
+	setTitle := func(t string) {
+		mu.Lock()
+		changed := t != title
+		title = t
+		mu.Unlock()
+		if changed {
+			tray.SetTitle(t)
+		}
+	}
+	showStatus := func(s ClashStatus) {
+		if s.Connected {
+			status.SetLabel(i18n.T("Connected · mihomo %s", s.Version))
+		} else {
+			status.SetLabel(i18n.T("Not connected to Clash"))
+			setTitle("")
+		}
+		speed.SetVisible(s.Connected)
+		reconnect.SetVisible(!s.Connected)
+	}
+	// showToday puts today's traffic of this computer and the subscription
+	// in use in the menu and the tooltip.
 	showToday := func() {
 		now := time.Now()
 		midnight := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.Local)
-		r := core.store.Query(store.Query{From: midnight.UnixMilli(), To: now.UnixMilli() + 1, Devices: []string{core.store.Self().ID}, Limit: 1})
+		self := core.store.Self()
+		r := core.store.Query(store.Query{From: midnight.UnixMilli(), To: now.UnixMilli() + 1, Devices: []string{self.ID}, Limit: 1})
 		var proxied int64
 		for _, it := range r.Routes {
 			if it.Name == string(store.RouteProxy) {
@@ -218,42 +254,71 @@ func setupTray(core *Core) {
 		}
 		today.SetLabel(i18n.T("This computer today: ↑ %s  ↓ %s (proxy %s)", formatBytes(r.Up), formatBytes(r.Down), formatBytes(proxied)))
 		tray.SetToolTip(i18n.T("Clash Traffic · today %s", formatBytes(r.Up+r.Down)))
+		label := subLabel(self.Subs)
+		sub.SetLabel(label)
+		sub.SetVisible(label != "")
+		syncNow.SetVisible(core.settings().SyncKind != SyncOff)
+	}
+	refresh := func() {
+		showStatus(core.Status())
+		showToday()
+	}
+	refresh()
+
+	if clickOpens {
+		tray.OnClick(showMainWindow)
+		tray.OnRightClick(func() {
+			refresh()
+			tray.SetMenu(menu)
+			tray.PopUpMenu()
+			tray.SetMenu(nil)
+		})
 	}
 	onLanguage(func() {
 		for id, label := range map[string]string{
 			"open":          i18n.T("Open Clash Traffic"),
+			"reconnect":     i18n.T("Reconnect"),
 			"sync":          i18n.T("Sync now"),
 			"check-updates": i18n.T("Check for Updates…"),
-			"quit":          i18n.T("Quit"),
+			"quit":          i18n.T("Quit Clash Traffic"),
 		} {
 			if it := menu.ItemByID(id); it != nil {
 				it.SetLabel(label)
 			}
 		}
-		// The speed shows again at the next tick, which needs the core.
-		if !core.Status().Connected {
-			speed.SetLabel(i18n.T("Live: not connected"))
-		}
-		showToday()
+		// The speed shows again at the next tick.
+		refresh()
 	})
+	core.onStatus = showStatus
 
 	var lastToday time.Time
-	var title string
 	core.onTick = func(live collector.Live) {
 		speed.SetLabel(i18n.T("Live: ↑ %s/s  ↓ %s/s", formatBytes(live.UpRate), formatBytes(live.DownRate)))
 		t := ""
 		if core.settings().TraySpeed {
 			t = "↓" + formatBytes(live.DownRate) + "/s"
 		}
-		if t != title {
-			title = t
-			tray.SetTitle(t)
-		}
+		setTitle(t)
 		if time.Since(lastToday) >= 10*time.Second {
 			lastToday = time.Now()
 			showToday()
 		}
 	}
+}
+
+// subLabel names the subscription in use, with its usage when the provider
+// tells it, or is empty without one.
+func subLabel(subs []store.SubInfo) string {
+	for _, s := range subs {
+		if !s.Current {
+			continue
+		}
+		if s.Total > 0 {
+			return i18n.T("Subscription: %s · %s of %s used", s.Name, formatBytes(s.Upload+s.Download), formatBytes(s.Total))
+		}
+		return i18n.T("Subscription: %s", s.Name)
+	}
+	return ""
 }
 
 func formatBytes(n int64) string {

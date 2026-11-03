@@ -89,6 +89,8 @@ type Core struct {
 
 	// onTick is called on the poll goroutine with each live snapshot.
 	onTick func(collector.Live)
+	// onStatus is called on the poll goroutine when the status changed.
+	onStatus func(ClashStatus)
 }
 
 // Init loads the settings and opens the store in the user data directory,
@@ -403,6 +405,9 @@ func (c *Core) setStatus(s ClashStatus) {
 	c.mu.Unlock()
 	if changed {
 		_ = StatusEvent.Broadcast(s)
+		if c.onStatus != nil {
+			c.onStatus(s)
+		}
 	}
 }
 

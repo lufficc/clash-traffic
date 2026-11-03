@@ -1,13 +1,15 @@
 package i18n
 
 var ru = map[string]string{
-	"Clash Traffic cannot start": "Не удалось запустить Clash Traffic",
-	"This computer today: —":     "Этот компьютер сегодня: —",
-	"Live: not connected":        "Сейчас: нет подключения",
-	"Open Clash Traffic":         "Открыть Clash Traffic",
-	"Sync now":                   "Синхронизировать",
-	"Quit":                       "Выйти",
-	"Live: ↑ %s/s  ↓ %s/s":       "Сейчас: ↑ %s/s  ↓ %s/s",
+	"Clash Traffic cannot start":                       "Не удалось запустить Clash Traffic",
+	"This computer today: —":                           "Этот компьютер сегодня: —",
+	"Open Clash Traffic":                               "Открыть Clash Traffic",
+	"Connected · mihomo %s":                            "Подключено · mihomo %s",
+	"Reconnect":                                        "Переподключиться",
+	"Subscription: %s":                                 "Подписка: %s",
+	"Subscription: %s · %s of %s used":                 "Подписка: %s · использовано %s из %s",
+	"Sync now":                                         "Синхронизировать",
+	"Live: ↑ %s/s  ↓ %s/s":                             "Сейчас: ↑ %s/s  ↓ %s/s",
 	"This computer today: ↑ %s  ↓ %s (proxy %s)":       "Этот компьютер сегодня: ↑ %s  ↓ %s (прокси %s)",
 	"Clash Traffic · today %s":                         "Clash Traffic · сегодня %s",
 	"Export the traffic":                               "Экспорт трафика",

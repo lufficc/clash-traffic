@@ -1,13 +1,15 @@
 package i18n
 
 var zhHant = map[string]string{
-	"Clash Traffic cannot start": "Clash Traffic 無法啟動",
-	"This computer today: —":     "本機今日：—",
-	"Live: not connected":        "即時：未連線",
-	"Open Clash Traffic":         "開啟 Clash Traffic",
-	"Sync now":                   "立即同步",
-	"Quit":                       "結束",
-	"Live: ↑ %s/s  ↓ %s/s":       "即時：↑ %s/s  ↓ %s/s",
+	"Clash Traffic cannot start":                       "Clash Traffic 無法啟動",
+	"This computer today: —":                           "本機今日：—",
+	"Open Clash Traffic":                               "開啟 Clash Traffic",
+	"Connected · mihomo %s":                            "已連線 · mihomo %s",
+	"Reconnect":                                        "重新連線",
+	"Subscription: %s":                                 "訂閱：%s",
+	"Subscription: %s · %s of %s used":                 "訂閱：%s · 已用 %s / %s",
+	"Sync now":                                         "立即同步",
+	"Live: ↑ %s/s  ↓ %s/s":                             "即時：↑ %s/s  ↓ %s/s",
 	"This computer today: ↑ %s  ↓ %s (proxy %s)":       "本機今日：↑ %s  ↓ %s（代理 %s）",
 	"Clash Traffic · today %s":                         "Clash Traffic · 今日 %s",
 	"Export the traffic":                               "匯出流量明細",
