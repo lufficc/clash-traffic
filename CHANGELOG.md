@@ -2,6 +2,15 @@
 
 每个版本的说明也会显示在应用的更新窗口中。
 
+## 0.1.6
+
+- **Tray**: Clicking the icon opens the window; right-click (two-finger click on macOS) opens the menu. On Linux, clicking still opens the menu.
+  **托盘**：点击图标即可打开主界面；右键（macOS 上双指点按）弹出菜单。Linux 上仍是点击弹出菜单。
+- The tray menu shows the connection to Clash, the subscription in use and its usage, and offers Reconnect when not connected; Sync now shows only when syncing is on.
+  托盘菜单新增与 Clash 的连接状态、当前订阅及其用量，未连接时可「重新连接」；「立即同步」仅在开启同步时显示。
+- On Windows, today's traffic and the speed in the tray menu are current again, instead of the values at startup.
+  修复 Windows 上托盘菜单里今日流量和实时网速一直停在启动时数值的问题。
+
 ## 0.1.5
 
 - **FlClash**: Subscriptions now shows FlClash's subscriptions, with their names and usage, instead of "Unknown subscription"; traffic already counted there keeps that name. Turn on FlClash's external controller and the app finds it by itself.
