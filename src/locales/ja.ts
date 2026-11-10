@@ -246,6 +246,8 @@ const ja: Dict = {
   "Counts in the background without opening its window; open it from the menu bar icon.": "ウィンドウを開かずにバックグラウンドで集計します。メニューバーのアイコンから開けます。",
   "Counts in the background without opening its window; open it from the tray icon.": "ウィンドウを開かずにバックグラウンドで集計します。トレイアイコンから開けます。",
   "Show the download speed in the menu bar": "メニューバーにダウンロード速度を表示",
+  "Hide the Dock icon when the window is closed": "ウィンドウを閉じたら Dock のアイコンを隠す",
+  "Keeps counting in the menu bar only; open the window from the menu bar icon.": "メニューバーだけでバックグラウンドで集計を続けます。ウィンドウはメニューバーのアイコンから開けます。",
   "Find and sync over Tailscale (recommended)": "Tailscale で自動検出して同期（推奨）",
   "No setup: the computers of the tailnet that run Clash Traffic find each other, fetch each other's numbers every minute and show them together.": "設定不要：同じ tailnet 内で Clash Traffic を実行しているコンピューター同士が自動的に互いを検出し、1 分ごとに互いの集計を取得してまとめて表示します。",
   "The data goes straight between your own devices, through no third party; devices shared into the tailnet by others cannot read it; the access log is not shared.": "データはあなた自身のデバイス間で直接やり取りされ、第三者を経由しません。他のユーザーが tailnet に共有したデバイスからは読み取れません。アクセスログは共有されません。",

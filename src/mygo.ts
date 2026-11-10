@@ -269,6 +269,11 @@ export interface Settings {
   syncMinutes: number;
   /** TraySpeed shows the current speed next to the menu bar icon (macOS). */
   traySpeed: boolean;
+  /**
+   * HideDock takes the app out of the Dock while its window is closed
+   * (macOS): it keeps counting in the menu bar.
+   */
+  hideDock: boolean;
   /** SessionDays is how many days the access log keeps; 0 keeps it all. */
   sessionDays: number;
   /**

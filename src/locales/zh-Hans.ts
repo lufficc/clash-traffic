@@ -246,6 +246,8 @@ const zhHans: Dict = {
   "Counts in the background without opening its window; open it from the menu bar icon.": "在后台持续统计，窗口不会弹出；可从菜单栏图标打开。",
   "Counts in the background without opening its window; open it from the tray icon.": "在后台持续统计，窗口不会弹出；可从托盘图标打开。",
   "Show the download speed in the menu bar": "在菜单栏显示下载速度",
+  "Hide the Dock icon when the window is closed": "关闭窗口后隐藏 Dock 图标",
+  "Keeps counting in the menu bar only; open the window from the menu bar icon.": "仅在菜单栏后台统计；点击菜单栏图标即可打开主界面。",
   "Find and sync over Tailscale (recommended)": "通过 Tailscale 自动发现并同步（推荐）",
   "No setup: the computers of the tailnet that run Clash Traffic find each other, fetch each other's numbers every minute and show them together.": "无需配置：同一 tailnet 中运行 Clash Traffic 的电脑会自动互相发现，每分钟拉取对方的流量统计并合并显示。",
   "The data goes straight between your own devices, through no third party; devices shared into the tailnet by others cannot read it; the access log is not shared.": "数据只在你自己的设备之间直接传输（不经第三方），他人共享进 tailnet 的设备无法读取；访问记录不会共享。",

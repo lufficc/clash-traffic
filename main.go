@@ -26,17 +26,18 @@ func main() {
 	// The lock above is let go before an instance saves its counters on its
 	// way out: wait for that before reading them, and never go without it.
 	var lockErr error
-	lang := ""
+	lang, dataDir := "", ""
 	if os.Getenv("MYGO_GENERATE") == "" {
 		dir, err := app.Path(mygo.PathUserData)
 		if err == nil {
 			dataLock, err = lockDataDir(dir, 15*time.Second)
-			lang = savedLanguage(dir)
+			lang, dataDir = savedLanguage(dir), dir
 		}
 		lockErr = err
 	}
 
 	core := &Core{}
+	startDock(dataDir, func() bool { return core.settings().HideDock })
 	useUpdater(core, lang)
 	mygo.Bind(&Traffic{core})
 	mygo.Bind(&Monitor{core})
@@ -64,6 +65,8 @@ func main() {
 		// Started at login, it counts in the background, in the tray.
 		if !app.WasOpenedAtLogin() {
 			showMainWindow()
+		} else {
+			updateDock(nil) // the setting as read, should the file have been unreadable
 		}
 	})
 	// Closing the window keeps counting; the tray brings it back.
@@ -81,14 +84,15 @@ func main() {
 	}
 }
 
-var (
-	winMu   sync.Mutex
-	mainWin *mygo.Window
-)
+// mainWin is used on the main thread only.
+var mainWin *mygo.Window
 
-func showMainWindow() {
-	winMu.Lock()
-	defer winMu.Unlock()
+func showMainWindow() { mygo.RunOnMain(showMainWindowOnMain) }
+
+func showMainWindowOnMain() {
+	// Back in the Dock first, so that the window comes to the front as an
+	// ordinary app's.
+	updateDock(func() { dock.windowOpen = true })
 	if mainWin != nil && !mainWin.IsDestroyed() {
 		if mainWin.IsMinimized() {
 			mainWin.Restore()
@@ -113,12 +117,12 @@ func showMainWindow() {
 		StateKey:             "main",
 		URL:                  "/",
 	})
+	// Closed fires on the main thread.
 	w.OnClosed(func() {
-		winMu.Lock()
 		if mainWin == w {
 			mainWin = nil
+			updateDock(func() { dock.windowOpen = false })
 		}
-		winMu.Unlock()
 	})
 	mainWin = w
 }

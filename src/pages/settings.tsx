@@ -186,6 +186,11 @@ export function SettingsPage({ status, notify }: PageProps) {
           {isMac ? t("Counts in the background without opening its window; open it from the menu bar icon.") : t("Counts in the background without opening its window; open it from the tray icon.")}
         </Toggle>
         {isMac && <Toggle checked={form.traySpeed} onChange={(v) => set({ traySpeed: v })} label={t("Show the download speed in the menu bar")} />}
+        {isMac && (
+          <Toggle checked={form.hideDock} onChange={(v) => set({ hideDock: v })} label={t("Hide the Dock icon when the window is closed")}>
+            {t("Keeps counting in the menu bar only; open the window from the menu bar icon.")}
+          </Toggle>
+        )}
       </Card>
 
       <Card title={t("Multi-device sync")}>

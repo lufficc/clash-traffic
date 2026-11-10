@@ -271,6 +271,8 @@ const ru: Dict = {
   "Counts in the background without opening its window; open it from the menu bar icon.": "Считает трафик в фоне, не открывая окно; открыть его можно через значок в строке меню.",
   "Counts in the background without opening its window; open it from the tray icon.": "Считает трафик в фоне, не открывая окно; открыть его можно через значок в системном трее.",
   "Show the download speed in the menu bar": "Показывать скорость скачивания в строке меню",
+  "Hide the Dock icon when the window is closed": "Скрывать значок в Dock, когда окно закрыто",
+  "Keeps counting in the menu bar only; open the window from the menu bar icon.": "Подсчёт продолжается в фоне, только в строке меню; окно открывается значком в строке меню.",
   "Find and sync over Tailscale (recommended)": "Поиск и синхронизация через Tailscale (рекомендуется)",
   "No setup: the computers of the tailnet that run Clash Traffic find each other, fetch each other's numbers every minute and show them together.": "Без настройки: компьютеры tailnet с Clash Traffic находят друг друга, каждую минуту получают статистику друг друга и показывают её вместе.",
   "The data goes straight between your own devices, through no third party; devices shared into the tailnet by others cannot read it; the access log is not shared.": "Данные передаются напрямую между вашими устройствами, без посредников; устройства, к которым вам дали доступ в tailnet другие, прочитать их не могут; журнал не передаётся.",

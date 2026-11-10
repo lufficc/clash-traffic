@@ -246,6 +246,8 @@ const ko: Dict = {
   "Counts in the background without opening its window; open it from the menu bar icon.": "창을 열지 않고 백그라운드에서 집계합니다. 메뉴 막대 아이콘에서 열 수 있습니다.",
   "Counts in the background without opening its window; open it from the tray icon.": "창을 열지 않고 백그라운드에서 집계합니다. 트레이 아이콘에서 열 수 있습니다.",
   "Show the download speed in the menu bar": "메뉴 막대에 다운로드 속도 표시",
+  "Hide the Dock icon when the window is closed": "창을 닫으면 Dock 아이콘 숨기기",
+  "Keeps counting in the menu bar only; open the window from the menu bar icon.": "메뉴 막대에서만 백그라운드로 계속 집계합니다. 창은 메뉴 막대 아이콘에서 열 수 있습니다.",
   "Find and sync over Tailscale (recommended)": "Tailscale로 자동 검색 및 동기화(권장)",
   "No setup: the computers of the tailnet that run Clash Traffic find each other, fetch each other's numbers every minute and show them together.": "설정이 필요 없습니다. 같은 tailnet에서 Clash Traffic을 실행하는 컴퓨터끼리 자동으로 서로를 찾고, 1분마다 서로의 트래픽 통계를 가져와 함께 표시합니다.",
   "The data goes straight between your own devices, through no third party; devices shared into the tailnet by others cannot read it; the access log is not shared.": "데이터는 제3자를 거치지 않고 본인 기기 간에 직접 전송되며, 다른 사람이 tailnet에 공유한 기기는 읽을 수 없습니다. 접속 기록은 공유되지 않습니다.",

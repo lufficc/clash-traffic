@@ -648,6 +648,9 @@ func (c *Core) SaveSettings(in Settings, password *string) (Settings, error) {
 	if in.Language != old.Language {
 		setLanguage(languageOf(in))
 	}
+	if in.HideDock != old.HideDock {
+		updateDock(nil)
+	}
 	if in.SessionDays != old.SessionDays {
 		if err := c.sessions.Cleanup(in.SessionDays); err != nil {
 			errs = append(errs, err)

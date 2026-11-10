@@ -54,6 +54,9 @@ type Settings struct {
 	SyncMinutes  int      `json:"syncMinutes"`
 	// TraySpeed shows the current speed next to the menu bar icon (macOS).
 	TraySpeed bool `json:"traySpeed"`
+	// HideDock takes the app out of the Dock while its window is closed
+	// (macOS): it keeps counting in the menu bar.
+	HideDock bool `json:"hideDock"`
 	// SessionDays is how many days the access log keeps; 0 keeps it all.
 	SessionDays int `json:"sessionDays"`
 	// Tailscale shares the traffic with the other devices of the tailnet
