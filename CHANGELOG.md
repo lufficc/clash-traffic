@@ -2,6 +2,11 @@
 
 每个版本的说明也会显示在应用的更新窗口中。
 
+## 0.1.7
+
+- **macOS**: Settings → This computer → "Hide the Dock icon when the window is closed": closed, the app counts in the menu bar only; its icon opens the window, and the Dock icon with it. Off by default. Windows and Linux already work this way: closing the window leaves only the tray icon.
+  **macOS**：「设置 → 本机」新增「关闭窗口后隐藏 Dock 图标」：关闭窗口后仅在菜单栏后台统计，点击菜单栏图标即可打开主界面并恢复 Dock 图标；默认关闭。Windows 和 Linux 上关闭窗口后本来就只保留托盘图标。
+
 ## 0.1.6
 
 - **Tray**: Clicking the icon opens the window; right-click (two-finger click on macOS) opens the menu. On Linux, clicking still opens the menu.
