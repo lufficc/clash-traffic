@@ -12,6 +12,7 @@ var ru = map[string]string{
 	"Live: ↑ %s/s  ↓ %s/s":                             "Сейчас: ↑ %s/s  ↓ %s/s",
 	"This computer today: ↑ %s  ↓ %s (proxy %s)":       "Этот компьютер сегодня: ↑ %s  ↓ %s (прокси %s)",
 	"Clash Traffic · today %s":                         "Clash Traffic · сегодня %s",
+	"Proxy today %s":                                   "Прокси сегодня %s",
 	"Export the traffic":                               "Экспорт трафика",
 	"Delete this computer's copy of the data of “%s”?": "Удалить хранящуюся на этом компьютере копию данных устройства «%s»?",
 	"Only the copy on this computer is deleted. If the device still syncs, its data comes back at the next sync.": "Удаляется только копия на этом компьютере. Если устройство продолжает синхронизироваться, его данные вернутся при следующей синхронизации.",

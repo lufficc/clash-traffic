@@ -246,6 +246,7 @@ const zhHans: Dict = {
   "Counts in the background without opening its window; open it from the menu bar icon.": "在后台持续统计，窗口不会弹出；可从菜单栏图标打开。",
   "Counts in the background without opening its window; open it from the tray icon.": "在后台持续统计，窗口不会弹出；可从托盘图标打开。",
   "Show the download speed in the menu bar": "在菜单栏显示下载速度",
+  "Show today’s proxy traffic in the menu bar": "在菜单栏显示今日代理总量",
   "Hide the Dock icon when the window is closed": "关闭窗口后隐藏 Dock 图标",
   "Keeps counting in the menu bar only; open the window from the menu bar icon.": "仅在菜单栏后台统计；点击菜单栏图标即可打开主界面。",
   "Find and sync over Tailscale (recommended)": "通过 Tailscale 自动发现并同步（推荐）",

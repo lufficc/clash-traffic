@@ -246,6 +246,7 @@ const zhHant: Dict = {
   "Counts in the background without opening its window; open it from the menu bar icon.": "在背景持續統計，不會開啟視窗；可從選單列圖示開啟。",
   "Counts in the background without opening its window; open it from the tray icon.": "在背景持續統計，不會開啟視窗；可從系統匣圖示開啟。",
   "Show the download speed in the menu bar": "在選單列顯示下載速度",
+  "Show today’s proxy traffic in the menu bar": "在選單列顯示今日代理總量",
   "Hide the Dock icon when the window is closed": "關閉視窗後隱藏 Dock 圖示",
   "Keeps counting in the menu bar only; open the window from the menu bar icon.": "僅在選單列背景統計；點按選單列圖示即可開啟主視窗。",
   "Find and sync over Tailscale (recommended)": "透過 Tailscale 自動發現並同步（建議）",

@@ -246,6 +246,7 @@ const ja: Dict = {
   "Counts in the background without opening its window; open it from the menu bar icon.": "ウィンドウを開かずにバックグラウンドで集計します。メニューバーのアイコンから開けます。",
   "Counts in the background without opening its window; open it from the tray icon.": "ウィンドウを開かずにバックグラウンドで集計します。トレイアイコンから開けます。",
   "Show the download speed in the menu bar": "メニューバーにダウンロード速度を表示",
+  "Show today’s proxy traffic in the menu bar": "メニューバーに今日のプロキシ通信量を表示",
   "Hide the Dock icon when the window is closed": "ウィンドウを閉じたら Dock のアイコンを隠す",
   "Keeps counting in the menu bar only; open the window from the menu bar icon.": "メニューバーだけでバックグラウンドで集計を続けます。ウィンドウはメニューバーのアイコンから開けます。",
   "Find and sync over Tailscale (recommended)": "Tailscale で自動検出して同期（推奨）",

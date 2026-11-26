@@ -246,6 +246,7 @@ const ko: Dict = {
   "Counts in the background without opening its window; open it from the menu bar icon.": "창을 열지 않고 백그라운드에서 집계합니다. 메뉴 막대 아이콘에서 열 수 있습니다.",
   "Counts in the background without opening its window; open it from the tray icon.": "창을 열지 않고 백그라운드에서 집계합니다. 트레이 아이콘에서 열 수 있습니다.",
   "Show the download speed in the menu bar": "메뉴 막대에 다운로드 속도 표시",
+  "Show today’s proxy traffic in the menu bar": "메뉴 막대에 오늘의 프록시 트래픽 표시",
   "Hide the Dock icon when the window is closed": "창을 닫으면 Dock 아이콘 숨기기",
   "Keeps counting in the menu bar only; open the window from the menu bar icon.": "메뉴 막대에서만 백그라운드로 계속 집계합니다. 창은 메뉴 막대 아이콘에서 열 수 있습니다.",
   "Find and sync over Tailscale (recommended)": "Tailscale로 자동 검색 및 동기화(권장)",

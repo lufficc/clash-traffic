@@ -269,6 +269,8 @@ export interface Settings {
   syncMinutes: number;
   /** TraySpeed shows the current speed next to the menu bar icon (macOS). */
   traySpeed: boolean;
+  /** TrayTodayProxy shows the local device's proxy traffic since midnight (macOS). */
+  trayTodayProxy: boolean;
   /**
    * HideDock takes the app out of the Dock while its window is closed
    * (macOS): it keeps counting in the menu bar.

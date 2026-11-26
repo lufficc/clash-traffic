@@ -12,6 +12,7 @@ var ko = map[string]string{
 	"Live: ↑ %s/s  ↓ %s/s":                             "실시간: ↑ %s/s  ↓ %s/s",
 	"This computer today: ↑ %s  ↓ %s (proxy %s)":       "오늘 이 컴퓨터: ↑ %s  ↓ %s (프록시 %s)",
 	"Clash Traffic · today %s":                         "Clash Traffic · 오늘 %s",
+	"Proxy today %s":                                   "오늘 프록시 %s",
 	"Export the traffic":                               "트래픽 내보내기",
 	"Delete this computer's copy of the data of “%s”?": "이 컴퓨터에 저장된 ‘%s’ 기기의 데이터를 삭제하시겠습니까?",
 	"Only the copy on this computer is deleted. If the device still syncs, its data comes back at the next sync.": "이 컴퓨터에 있는 사본만 삭제됩니다. 해당 기기가 계속 동기화 중이면 다음 동기화 때 데이터가 다시 나타납니다.",
