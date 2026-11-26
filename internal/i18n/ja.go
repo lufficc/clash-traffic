@@ -12,6 +12,7 @@ var ja = map[string]string{
 	"Live: ↑ %s/s  ↓ %s/s":                             "リアルタイム：↑ %s/s  ↓ %s/s",
 	"This computer today: ↑ %s  ↓ %s (proxy %s)":       "今日（このコンピューター）：↑ %s  ↓ %s（プロキシ %s）",
 	"Clash Traffic · today %s":                         "Clash Traffic · 今日 %s",
+	"Proxy today %s":                                   "今日のプロキシ %s",
 	"Export the traffic":                               "トラフィックをエクスポート",
 	"Delete this computer's copy of the data of “%s”?": "このコンピューター上にある「%s」のデータを削除しますか？",
 	"Only the copy on this computer is deleted. If the device still syncs, its data comes back at the next sync.": "このコンピューター上のコピーのみ削除されます。そのデバイスが同期を続けている場合、次回の同期でデータが再び取得されます。",

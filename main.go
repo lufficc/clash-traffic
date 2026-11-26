@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 	"runtime"
-	"sync"
+	"strings"
 	"time"
 
 	"github.com/egoist/mygo"
@@ -209,6 +209,7 @@ func setupTray(core *Core) {
 	// elsewhere a click opens the window and the menu waits for a right
 	// click, which also builds it afresh: Windows keeps the labels a tray
 	// menu had when it was set.
+	isMac := runtime.GOOS == "darwin"
 	clickOpens := runtime.GOOS != "linux"
 	opts := mygo.TrayOptions{Icon: icon.Tray(32), IconIsTemplate: true, ToolTip: "Clash Traffic"}
 	if !clickOpens {
@@ -220,28 +221,33 @@ func setupTray(core *Core) {
 		return
 	}
 
-	// The title changes from the poll goroutine and the main thread; the
-	// tray, which waits for the main thread, is called without the lock.
-	var mu sync.Mutex
-	title := ""
-	setTitle := func(t string) {
-		mu.Lock()
-		changed := t != title
-		title = t
-		mu.Unlock()
-		if changed {
-			tray.SetTitle(t)
+	// Tray display state is read and written on the main thread.
+	var lastTitle string
+	var lastToday time.Time
+	var todayProxy, downRate int64
+	var haveSpeed bool
+	updateTitle := func() {
+		prefs := core.settings()
+		showSpeed := prefs.TraySpeed && haveSpeed
+		showProxyTotal := isMac && prefs.TrayTodayProxy
+		title := formatTrayTitle(showSpeed, downRate, showProxyTotal, todayProxy)
+		if title != lastTitle {
+			tray.SetTitle(title)
+			lastTitle = title
 		}
 	}
 	showStatus := func(s ClashStatus) {
-		if s.Connected {
-			status.SetLabel(i18n.T("Connected · mihomo %s", s.Version))
-		} else {
-			status.SetLabel(i18n.T("Not connected to Clash"))
-			setTitle("")
-		}
-		speed.SetVisible(s.Connected)
-		reconnect.SetVisible(!s.Connected)
+		mygo.RunOnMain(func() {
+			if s.Connected {
+				status.SetLabel(i18n.T("Connected · mihomo %s", s.Version))
+			} else {
+				status.SetLabel(i18n.T("Not connected to Clash"))
+				haveSpeed = false
+			}
+			speed.SetVisible(s.Connected)
+			reconnect.SetVisible(!s.Connected)
+			updateTitle()
+		})
 	}
 	// showToday puts today's traffic of this computer and the subscription
 	// in use in the menu and the tooltip.
@@ -256,12 +262,24 @@ func setupTray(core *Core) {
 				proxied = it.Up + it.Down
 			}
 		}
-		today.SetLabel(i18n.T("This computer today: ↑ %s  ↓ %s (proxy %s)", formatBytes(r.Up), formatBytes(r.Down), formatBytes(proxied)))
-		tray.SetToolTip(i18n.T("Clash Traffic · today %s", formatBytes(r.Up+r.Down)))
-		label := subLabel(self.Subs)
-		sub.SetLabel(label)
-		sub.SetVisible(label != "")
-		syncNow.SetVisible(core.settings().SyncKind != SyncOff)
+		mygo.RunOnMain(func() {
+			if now.Before(lastToday) {
+				return
+			}
+			lastToday = now
+			todayProxy = proxied
+			today.SetLabel(i18n.T("This computer today: ↑ %s  ↓ %s (proxy %s)", formatBytes(r.Up), formatBytes(r.Down), formatBytes(proxied)))
+			if isMac && core.settings().TrayTodayProxy {
+				tray.SetToolTip(i18n.T("Proxy today %s", formatBytes(proxied)))
+			} else {
+				tray.SetToolTip(i18n.T("Clash Traffic · today %s", formatBytes(r.Up+r.Down)))
+			}
+			label := subLabel(self.Subs)
+			sub.SetLabel(label)
+			sub.SetVisible(label != "")
+			syncNow.SetVisible(core.settings().SyncKind != SyncOff)
+			updateTitle()
+		})
 	}
 	refresh := func() {
 		showStatus(core.Status())
@@ -290,24 +308,38 @@ func setupTray(core *Core) {
 				it.SetLabel(label)
 			}
 		}
-		// The speed shows again at the next tick.
 		refresh()
 	})
 	core.onStatus = showStatus
 
-	var lastToday time.Time
 	core.onTick = func(live collector.Live) {
-		speed.SetLabel(i18n.T("Live: ↑ %s/s  ↓ %s/s", formatBytes(live.UpRate), formatBytes(live.DownRate)))
-		t := ""
-		if core.settings().TraySpeed {
-			t = "↓" + formatBytes(live.DownRate) + "/s"
-		}
-		setTitle(t)
-		if time.Since(lastToday) >= 10*time.Second {
-			lastToday = time.Now()
-			showToday()
-		}
+		mygo.RunOnMain(func() {
+			speed.SetLabel(i18n.T("Live: ↑ %s/s  ↓ %s/s", formatBytes(live.UpRate), formatBytes(live.DownRate)))
+			downRate, haveSpeed = live.DownRate, true
+			updateTitle()
+		})
 	}
+
+	// Refresh from the local store even after disconnecting, so the total
+	// switches to the new day at midnight with the main window closed.
+	done := make(chan struct{})
+	mygo.App.OnQuit(func() { close(done) })
+	go func() {
+		ticker := time.NewTicker(10 * time.Second)
+		defer ticker.Stop()
+		for {
+			select {
+			case <-done:
+				return
+			case <-ticker.C:
+				if core.Status().Connected || (isMac && core.settings().TrayTodayProxy) {
+					showToday()
+				} else {
+					mygo.RunOnMain(updateTitle)
+				}
+			}
+		}
+	}()
 }
 
 // subLabel names the subscription in use, with its usage when the provider
@@ -323,6 +355,25 @@ func subLabel(subs []store.SubInfo) string {
 		return i18n.T("Subscription: %s", s.Name)
 	}
 	return ""
+}
+
+func formatTrayTitle(showSpeed bool, downRate int64, showProxyTotal bool, todayProxy int64) string {
+	var parts []string
+	if showSpeed {
+		parts = append(parts, "↓"+formatBytes(downRate)+"/s")
+	}
+	if showProxyTotal {
+		parts = append(parts, formatTrayBytes(todayProxy))
+	}
+	return strings.Join(parts, " · ")
+}
+
+func formatTrayBytes(n int64) string {
+	value, unit, _ := strings.Cut(formatBytes(n), " ")
+	if strings.Contains(value, ".") {
+		value = strings.TrimRight(strings.TrimRight(value, "0"), ".")
+	}
+	return value + " " + unit
 }
 
 func formatBytes(n int64) string {

@@ -271,6 +271,7 @@ const ru: Dict = {
   "Counts in the background without opening its window; open it from the menu bar icon.": "Считает трафик в фоне, не открывая окно; открыть его можно через значок в строке меню.",
   "Counts in the background without opening its window; open it from the tray icon.": "Считает трафик в фоне, не открывая окно; открыть его можно через значок в системном трее.",
   "Show the download speed in the menu bar": "Показывать скорость скачивания в строке меню",
+  "Show today’s proxy traffic in the menu bar": "Показывать прокси-трафик за сегодня в строке меню",
   "Hide the Dock icon when the window is closed": "Скрывать значок в Dock, когда окно закрыто",
   "Keeps counting in the menu bar only; open the window from the menu bar icon.": "Подсчёт продолжается в фоне, только в строке меню; окно открывается значком в строке меню.",
   "Find and sync over Tailscale (recommended)": "Поиск и синхронизация через Tailscale (рекомендуется)",

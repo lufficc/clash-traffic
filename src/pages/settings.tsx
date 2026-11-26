@@ -185,11 +185,22 @@ export function SettingsPage({ status, notify }: PageProps) {
         <Toggle checked={form.openAtLogin} onChange={(v) => set({ openAtLogin: v })} label={t("Open at login")}>
           {isMac ? t("Counts in the background without opening its window; open it from the menu bar icon.") : t("Counts in the background without opening its window; open it from the tray icon.")}
         </Toggle>
-        {isMac && <Toggle checked={form.traySpeed} onChange={(v) => set({ traySpeed: v })} label={t("Show the download speed in the menu bar")} />}
         {isMac && (
-          <Toggle checked={form.hideDock} onChange={(v) => set({ hideDock: v })} label={t("Hide the Dock icon when the window is closed")}>
-            {t("Keeps counting in the menu bar only; open the window from the menu bar icon.")}
-          </Toggle>
+          <>
+            <Toggle
+              checked={form.traySpeed}
+              onChange={(v) => set({ traySpeed: v })}
+              label={t("Show the download speed in the menu bar")}
+            />
+            <Toggle
+              checked={form.trayTodayProxy}
+              onChange={(v) => set({ trayTodayProxy: v })}
+              label={t("Show today’s proxy traffic in the menu bar")}
+            />
+            <Toggle checked={form.hideDock} onChange={(v) => set({ hideDock: v })} label={t("Hide the Dock icon when the window is closed")}>
+              {t("Keeps counting in the menu bar only; open the window from the menu bar icon.")}
+            </Toggle>
+          </>
         )}
       </Card>
 

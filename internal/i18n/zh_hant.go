@@ -12,6 +12,7 @@ var zhHant = map[string]string{
 	"Live: ↑ %s/s  ↓ %s/s":                             "即時：↑ %s/s  ↓ %s/s",
 	"This computer today: ↑ %s  ↓ %s (proxy %s)":       "本機今日：↑ %s  ↓ %s（代理 %s）",
 	"Clash Traffic · today %s":                         "Clash Traffic · 今日 %s",
+	"Proxy today %s":                                   "今日代理 %s",
 	"Export the traffic":                               "匯出流量明細",
 	"Delete this computer's copy of the data of “%s”?": "要刪除裝置「%s」在本機的資料嗎？",
 	"Only the copy on this computer is deleted. If the device still syncs, its data comes back at the next sync.": "只會刪除本機快取的副本。若該裝置仍在同步，下次同步時資料會重新下載。",

@@ -54,6 +54,8 @@ type Settings struct {
 	SyncMinutes  int      `json:"syncMinutes"`
 	// TraySpeed shows the current speed next to the menu bar icon (macOS).
 	TraySpeed bool `json:"traySpeed"`
+	// TrayTodayProxy shows the local device's proxy traffic since midnight (macOS).
+	TrayTodayProxy bool `json:"trayTodayProxy"`
 	// HideDock takes the app out of the Dock while its window is closed
 	// (macOS): it keeps counting in the menu bar.
 	HideDock bool `json:"hideDock"`

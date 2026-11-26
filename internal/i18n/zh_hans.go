@@ -12,6 +12,7 @@ var zhHans = map[string]string{
 	"Live: ↑ %s/s  ↓ %s/s":                             "实时：↑ %s/s  ↓ %s/s",
 	"This computer today: ↑ %s  ↓ %s (proxy %s)":       "本机今日：↑ %s  ↓ %s（代理 %s）",
 	"Clash Traffic · today %s":                         "Clash Traffic · 今日 %s",
+	"Proxy today %s":                                   "今日代理 %s",
 	"Export the traffic":                               "导出流量明细",
 	"Delete this computer's copy of the data of “%s”?": "删除设备“%s”在本机的数据？",
 	"Only the copy on this computer is deleted. If the device still syncs, its data comes back at the next sync.": "只删除本机缓存的副本。若该设备仍在同步，下次同步时数据会重新下载。",
